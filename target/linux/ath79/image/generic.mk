@@ -341,3 +341,11 @@ define Device/wd_mynet-wifi-rangeextender
   SUPPORTED_DEVICES += mynet-rext
 endef
 TARGET_DEVICES += wd_mynet-wifi-rangeextender
+
+define Device/zsun_sdreader
+  ATH_SOC := ar9331
+  DEVICE_TITLE := Zsun WiFi SD Card reader
+  DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-storage
+  IMAGE_SIZE := 16128k
+endef
+TARGET_DEVICES += zsun_sdreader

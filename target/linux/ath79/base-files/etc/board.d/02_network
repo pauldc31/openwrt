@@ -26,7 +26,8 @@ ath79_setup_interfaces()
 	ubnt,unifiac-lite|\
 	ubnt,unifiac-mesh|\
 	ubnt,unifi|\
-	wd,mynet-wifi-rangeextender)
+	wd,mynet-wifi-rangeextender|\
+	zsun,sdreader)
 		ucidef_set_interface_lan "eth0"
 		;;
 	avm,fritz4020)
