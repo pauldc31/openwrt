@@ -1,0 +1,51 @@
+#!/bin/sh
+# Some devices can be only accesed by wifi (zsun for example). To avoid enable wifi automatically, we will do it based on a file presence inside external device
+
+
+enable_all_wifi_ifaces() {
+	for entry in $(uci show wireless | grep -E '@wifi-iface\[\d+\]\.device'); do # list all wifi devices
+		dev=$(echo $entry| sed -nre 's/.*\[(\d+)\].*/\1/p'); #get the asociated number
+		uci set wireless.@wifi-iface[$dev].disabled='0'
+	done
+
+	uci commit wireless
+	wifi
+}
+
+generic_wifi_on() {
+
+	mount_tmp=$(mktemp -d)
+
+	for partition in $(cat /proc/partitions | grep -v block | awk '{print $4}' | grep '\d'); do
+		#No beauty way to determine fs type. Let's try and see what will happen
+		mount /dev/$partition $mount_tmp
+		if [ $? -eq 0 ]; then
+			#mounted!
+			if [ -f $mount_tmp/openwrt_wireless ]; then
+				#File available. Let's turn on the wifi
+
+				enable_all_wifi_ifaces
+
+				rm $mount_tmp/openwrt_wireless
+			fi
+			umount /dev/$partition
+		fi
+	done
+
+	rmdir $mount_tmp
+
+}
+
+enable_wifi() {
+	. /lib/functions.sh
+
+	board=$(board_name)
+
+	case "$board" in
+		zsun,sdreader)
+			generic_wifi_on
+			;;
+	esac
+}
+
+boot_hook_add preinit_mount_root enable_wifi

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+erase_all() {
+	echo "Doing a factory reset."
+	mount_root
+	firstboot -y
+	sleep 10
+	reboot -f
+}
+
+failsafe_wipe() {
+	. /lib/functions.sh
+
+	board=$(board_name)
+
+	case "$board" in
+		zsun,sdreader)
+			erase_all
+			;;
+	esac
+}
+
+boot_hook_add failsafe failsafe_wipe
