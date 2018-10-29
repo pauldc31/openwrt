@@ -1,0 +1,26 @@
+#!/bin/ash
+
+[ "$ACTION" == "pressed" ] || exit 0
+
+. /lib/functions.sh
+
+reset_sdcard() {
+	local gpio_num=$1
+	# Restart the SD card reader chip (not the SoC or flash memory).
+	# It has to be reset every time you insert a card or else it doesn't work
+	logger Resetting the GPIO $gpio_num of $(board_name) SD card reader
+	echo "0" > /sys/class/gpio/gpio${gpio_num}/value
+	echo "1" > /sys/class/gpio/gpio${gpio_num}/value
+}
+
+
+board=$(board_name)
+
+case "$board" in
+	zsun,sdreader)
+		if [ "${BUTTON}" = "BTN_1" ]; then
+			# We are sure that BTN_1 is triggered when sdcard is inserted
+			reset_sdcard 18
+		fi
+		;;
+esac
