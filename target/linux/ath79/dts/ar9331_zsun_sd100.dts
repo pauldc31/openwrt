@@ -25,7 +25,7 @@
 		pinctrl-0 = <&switch_led_pins>;
 
 		system: system {
-			label = "zsun,SD100:system";
+			label = "SD100:system";
 			gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
 		};
 
@@ -36,7 +36,7 @@
 		poll-interval = <20>;
 
 		reset {
-			label = "zsun,SD100:reset";
+			label = "SD100:reset";
 			linux,input-type = <EV_KEY>;
 			linux,code = <BTN_1>;
 			gpios = <&gpio 22 GPIO_ACTIVE_LOW>;
@@ -49,13 +49,13 @@
 	#size-cells = <0>;
 
 		usb_switch {
-			gpio-export,name = "zsun,SD100:usb_switch";
+			gpio-export,name = "SD100:usb_switch";
 			gpio-export,output = <1>;
 			gpios = <&gpio 21 GPIO_ACTIVE_LOW>;
 		};
 
 		sd_reset {
-			gpio-export,name = "zsun,SD100:sd_reset";
+			gpio-export,name = "SD100:sd_reset";
 			gpio-export,output = <1>;
 			gpio-export,direction_may_change = <1>;
 			gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
