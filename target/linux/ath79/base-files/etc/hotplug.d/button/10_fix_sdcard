@@ -17,7 +17,7 @@ reset_sdcard() {
 board=$(board_name)
 
 case "$board" in
-	zsun,sdreader)
+	zsun,SD100)
 		if [ "${BUTTON}" = "BTN_1" ]; then
 			# We are sure that BTN_1 is triggered when sdcard is inserted
 			reset_sdcard 18

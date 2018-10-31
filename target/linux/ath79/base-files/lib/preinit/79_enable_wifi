@@ -42,7 +42,7 @@ enable_wifi() {
 	board=$(board_name)
 
 	case "$board" in
-		zsun,sdreader)
+		zsun,SD100)
 			generic_wifi_on
 			;;
 	esac

@@ -14,7 +14,7 @@ failsafe_wipe() {
 	board=$(board_name)
 
 	case "$board" in
-		zsun,sdreader)
+		zsun,SD100)
 			erase_all
 			;;
 	esac
