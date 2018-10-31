@@ -344,8 +344,11 @@ TARGET_DEVICES += wd_mynet-wifi-rangeextender
 
 define Device/zsun_sdreader
   ATH_SOC := ar9331
+  IMAGE_SIZE := 16128k
   DEVICE_TITLE := Zsun WiFi SD Card reader
   DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-storage kmod-fs-vfat
-  IMAGE_SIZE := 16128k
+	IMAGES += factory.tar.gz
+	IMAGE/factory.tar.gz := $$(IMAGE/sysupgrade.bin) | check-size 14912k | zsun-factory
+	FACTORY_PREFIX := SD100-zzzzzzzzzzzz
 endef
 TARGET_DEVICES += zsun_sdreader

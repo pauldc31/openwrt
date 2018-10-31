@@ -1,4 +1,4 @@
-include $(TOPDIR)/rules.mk
+	include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
 
 KERNEL_LOADADDR = 0x80060000
@@ -49,6 +49,13 @@ define Build/relocate-kernel
 	rm -rf $@.relocate
 endef
 
+define Build/zsun-factory
+	mv "$@" "$(addsuffix .bin, $(basename $(basename $@)))"
+	echo "$(addsuffix .bin, $(basename $(basename $(notdir $@)))):S:/dev/mtd2" > $(dir $@)/config
+	$(TAR) cvzf "$(dir $@)/intermediate-v1.9.tar.gz" -C "$(dir $@)" $(addsuffix .bin, $(basename $(basename $(notdir $@)))) config
+	md5sum "$(dir $@)/intermediate-v1.9.tar.gz" | awk '{print $$1}' > "$(dir $@)/md5"
+	$(TAR) cvzf "$@" -C "$(dir $@)" intermediate-v1.9.tar.gz md5
+endef
 
 define Device/Default
   ATH_SOC :=
